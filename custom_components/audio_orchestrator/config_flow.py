@@ -3,8 +3,9 @@ from __future__ import annotations
 
 import logging
 from typing import Any
-import voluptuous as vol
 
+import voluptuous as vol
+from aiohttp import ClientError
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -33,7 +34,7 @@ class AudioOrchestratorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             async with session.get(f"{host}/api/fullstate", timeout=5) as resp:
                 if resp.status != 200:
                     return self._show_user_form({"base": "cannot_connect"})
-        except Exception:
+        except (ClientError, TimeoutError):
             return self._show_user_form({"base": "cannot_connect"})
 
         await self.async_set_unique_id(host)

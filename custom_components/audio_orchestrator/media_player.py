@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from homeassistant.components.media_player import (
     MediaPlayerDeviceClass,
@@ -17,6 +16,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, STREAM_ID_DEFAULT
 from .coordinator import AudioOrchestratorCoordinator
+from .models import GroupDto, SpotifySourceDto, StreamDto
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -101,7 +101,7 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         return features
 
     @property
-    def group_data(self) -> dict[str, Any] | None:
+    def group_data(self) -> GroupDto | None:
         """Get the current group data dictionary."""
         if not self.coordinator.data:
             return None
@@ -234,7 +234,7 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
             return None
         return info.get("currentCoverUrl")
 
-    def _get_active_source_info(self, stream_id: str | None = None) -> dict[str, Any] | None:
+    def _get_active_source_info(self, stream_id: str | None = None) -> StreamDto | SpotifySourceDto | None:
         """Resolve metadata dictionary of the active stream."""
         data = self.group_data
         if not data or not self.coordinator.data:

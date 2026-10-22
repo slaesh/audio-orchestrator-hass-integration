@@ -2,18 +2,18 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, SCAN_INTERVAL
+from .models import FullStateDto
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class AudioOrchestratorCoordinator(DataUpdateCoordinator[dict[str, Any]]):
+class AudioOrchestratorCoordinator(DataUpdateCoordinator[FullStateDto]):
     """Class to manage fetching Audio Orchestrator state from API."""
 
     def __init__(self, hass: HomeAssistant, host: str) -> None:
@@ -27,7 +27,7 @@ class AudioOrchestratorCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.host = host.rstrip("/")
         self.session = async_get_clientsession(hass)
 
-    async def _async_update_data(self) -> dict[str, Any]:
+    async def _async_update_data(self) -> FullStateDto:
         """Fetch full state from the orchestrator API."""
         url = f"{self.host}/api/fullstate"
         try:
