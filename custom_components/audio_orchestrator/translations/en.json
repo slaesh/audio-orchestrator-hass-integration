@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Audio Orchestrator",
+        "description": "Enter the base URL of your Audio Orchestrator server.",
+        "data": {
+          "host": "Server URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Audio Orchestrator. Please check URL and port."
+    },
+    "abort": {
+      "already_configured": "This Audio Orchestrator instance is already configured."
+    }
+  }
+}

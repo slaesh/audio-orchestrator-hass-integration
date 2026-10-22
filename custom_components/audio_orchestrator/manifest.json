@@ -1,0 +1,11 @@
+{
+  "domain": "audio_orchestrator",
+  "name": "Audio Orchestrator",
+  "version": "1.0.0",
+  "documentation": "https://github.com/slaesh/audio-orchestrator",
+  "issue_tracker": "https://github.com/slaesh/audio-orchestrator/issues",
+  "dependencies": [],
+  "codeowners": ["@slaesh"],
+  "iot_class": "local_polling",
+  "config_flow": true
+}
