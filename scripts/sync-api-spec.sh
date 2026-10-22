@@ -14,3 +14,12 @@ else
 fi
 
 echo "Successfully synchronized $SPEC_FILE!"
+
+echo "Generating Python TypedDict models via datamodel-code-generator..."
+datamodel-codegen \
+    --input "$SPEC_FILE" \
+    --input-file-type openapi \
+    --output custom_components/audio_orchestrator/models.py \
+    --output-model-type typing.TypedDict
+
+echo "Successfully generated custom_components/audio_orchestrator/models.py!"
