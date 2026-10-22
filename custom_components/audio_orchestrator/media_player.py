@@ -70,6 +70,11 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         self._attr_unique_id = f"audio_orchestrator_group_{group_id}"
 
     @property
+    def available(self) -> bool:
+        """Return True if entity is available and exists in orchestrator."""
+        return self.coordinator.last_update_success and self.group_data is not None
+
+    @property
     def supported_features(self) -> MediaPlayerEntityFeature:
         """Flag media player features that are supported dynamically based on active stream."""
         features = (
