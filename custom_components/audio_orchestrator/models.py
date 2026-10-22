@@ -4,9 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TypeAlias, TypedDict
-
-from typing_extensions import NotRequired
+from typing import Literal, NotRequired, TypedDict
 
 
 class CreateGroupRequest(TypedDict):
@@ -138,7 +136,7 @@ class SpotifyReleaseDto(TypedDict):
     url: NotRequired[str | None]
 
 
-StreamStatus: TypeAlias = Literal['idle', 'playing']
+type StreamStatus = Literal['idle', 'playing']
 
 
 class UpdateSourceRequest(TypedDict):
@@ -150,7 +148,7 @@ class UpgradeSpotifySourceRequest(TypedDict):
     targetVersion: NotRequired[str | None]
 
 
-VolumeProfile: TypeAlias = Literal['cubic', 'linear']
+type VolumeProfile = Literal['cubic', 'linear']
 
 
 class VolumeRequest(TypedDict):

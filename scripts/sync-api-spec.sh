@@ -22,4 +22,7 @@ datamodel-codegen \
     --output custom_components/audio_orchestrator/models.py \
     --output-model-type typing.TypedDict
 
-echo "Successfully generated custom_components/audio_orchestrator/models.py!"
+echo "Formatting models via ruff..."
+ruff check --target-version py312 --fix --unsafe-fixes custom_components/audio_orchestrator/models.py || true
+
+echo "Successfully generated and formatted custom_components/audio_orchestrator/models.py!"
