@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Package and Upload HACS Zip
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create HACS Zip archive
+        run: |
+          # HACS zip_release expects the zip to contain custom_components/<domain>/
+          zip -r audio_orchestrator.zip custom_components/ -x "*/__pycache__*"
+
+      - name: Upload zip to release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: audio_orchestrator.zip
