@@ -90,13 +90,9 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
                 | MediaPlayerEntityFeature.PAUSE
                 | MediaPlayerEntityFeature.NEXT_TRACK
                 | MediaPlayerEntityFeature.PREVIOUS_TRACK
-                | MediaPlayerEntityFeature.STOP
             )
 
-        if stream_id and stream_id != STREAM_ID_DEFAULT:
-            # Radio Stream: No next/prev track, only Stop/Pause
-            return features | MediaPlayerEntityFeature.STOP | MediaPlayerEntityFeature.PAUSE
-
+        # For Radio (or Idle): No play/pause/skip buttons, rely on Mute & Source selection
         return features
 
     @property
