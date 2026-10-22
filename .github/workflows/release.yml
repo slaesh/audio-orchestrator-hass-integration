@@ -1,28 +1,40 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  build:
-    name: Package and Upload HACS Zip
+  release-please:
+    name: Release Please & HACS Asset Package
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v5
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Checkout repository
+        if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
 
       - name: Create HACS Zip archive
+        if: ${{ steps.release.outputs.release_created }}
         run: |
-          # HACS extracts zip directly into custom_components/<domain>/, so archive files from inside the domain directory
           cd custom_components/audio_orchestrator
           zip -r ../../audio_orchestrator.zip . -x "*/__pycache__*"
           cd ../..
 
       - name: Upload zip to release asset
+        if: ${{ steps.release.outputs.release_created }}
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.release.outputs.tag_name }}
           files: audio_orchestrator.zip
