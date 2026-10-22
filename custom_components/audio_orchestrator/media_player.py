@@ -82,7 +82,7 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         if not data:
             return features
 
-        stream_id = data.get("streamId", "")
+        stream_id = data.get("streamId") or ""
         if stream_id.startswith("spotify_"):
             return (
                 features
@@ -370,7 +370,7 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         if not data:
             return None
 
-        sid = data.get("streamId", "")
+        sid = data.get("streamId") or ""
         if not sid.startswith("spotify_"):
             return None
 
