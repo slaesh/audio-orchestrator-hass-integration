@@ -1,7 +1,7 @@
 {
   "domain": "audio_orchestrator",
   "name": "Audio Orchestrator",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "documentation": "https://github.com/slaesh/audio-orchestrator",
   "issue_tracker": "https://github.com/slaesh/audio-orchestrator/issues",
   "dependencies": [],

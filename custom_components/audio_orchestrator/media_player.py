@@ -8,6 +8,7 @@ from homeassistant.components.media_player import (
     MediaPlayerEntity,
     MediaPlayerEntityFeature,
     MediaPlayerState,
+    MediaType,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -225,6 +226,74 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         if not info:
             return None
         return info.get("currentAlbum")
+
+    @property
+    def media_channel(self) -> str | None:
+        """Return channel/station name for radio streams."""
+        data = self.group_data
+        if not data:
+            return None
+        stream_id = data.get("streamId") or ""
+        if not stream_id.startswith("radio_"):
+            return None
+        info = self._get_active_source_info()
+        if not info:
+            return None
+        return info.get("name")
+
+    @property
+    def media_playlist(self) -> str | None:
+        """Return playlist name for Spotify streams."""
+        data = self.group_data
+        if not data:
+            return None
+        stream_id = data.get("streamId") or ""
+        if not stream_id.startswith("spotify_"):
+            return None
+        info = self._get_active_source_info()
+        if not info:
+            return None
+        return info.get("contextName")
+
+    @property
+    def media_content_type(self) -> MediaType | None:
+        """Return the media content type."""
+        data = self.group_data
+        if not data:
+            return None
+        stream_id = data.get("streamId") or ""
+        if stream_id.startswith("radio_"):
+            return MediaType.CHANNEL
+        if stream_id.startswith("spotify_"):
+            return MediaType.MUSIC
+        return None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, str | list[str] | None]:
+        """Return extra state attributes such as station, playlist, and rooms."""
+        attrs: dict[str, str | list[str] | None] = {}
+        data = self.group_data
+        if not data:
+            return attrs
+
+        stream_id = data.get("streamId") or ""
+        if stream_id.startswith("radio_"):
+            attrs["source_type"] = "radio"
+            info = self._get_active_source_info()
+            if info:
+                attrs["station_name"] = info.get("name")
+        elif stream_id.startswith("spotify_"):
+            attrs["source_type"] = "spotify"
+            info = self._get_active_source_info()
+            if info:
+                attrs["playlist"] = info.get("contextName")
+                attrs["context_uri"] = info.get("contextUri")
+
+        rooms = [room.get("name") for room in data.get("rooms", []) if room.get("name")]
+        if rooms:
+            attrs["rooms"] = rooms
+
+        return attrs
 
     @property
     def entity_picture(self) -> str | None:

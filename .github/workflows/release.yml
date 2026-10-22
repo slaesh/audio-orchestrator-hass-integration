@@ -17,8 +17,10 @@ jobs:
 
       - name: Create HACS Zip archive
         run: |
-          # HACS zip_release expects the zip to contain custom_components/<domain>/
-          zip -r audio_orchestrator.zip custom_components/ -x "*/__pycache__*"
+          # HACS extracts zip directly into custom_components/<domain>/, so archive files from inside the domain directory
+          cd custom_components/audio_orchestrator
+          zip -r ../../audio_orchestrator.zip . -x "*/__pycache__*"
+          cd ../..
 
       - name: Upload zip to release asset
         uses: softprops/action-gh-release@v2
