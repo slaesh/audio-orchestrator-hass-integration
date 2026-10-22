@@ -62,21 +62,42 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
 
     _attr_device_class = MediaPlayerDeviceClass.SPEAKER
     _attr_has_entity_name = True
-    _attr_supported_features = (
-        MediaPlayerEntityFeature.VOLUME_SET
-        | MediaPlayerEntityFeature.VOLUME_MUTE
-        | MediaPlayerEntityFeature.SELECT_SOURCE
-        | MediaPlayerEntityFeature.PLAY
-        | MediaPlayerEntityFeature.PAUSE
-        | MediaPlayerEntityFeature.NEXT_TRACK
-        | MediaPlayerEntityFeature.PREVIOUS_TRACK
-    )
 
     def __init__(self, coordinator: AudioOrchestratorCoordinator, group_id: str) -> None:
         """Initialize the media player."""
         super().__init__(coordinator)
         self._group_id = group_id
         self._attr_unique_id = f"audio_orchestrator_group_{group_id}"
+
+    @property
+    def supported_features(self) -> MediaPlayerEntityFeature:
+        """Flag media player features that are supported dynamically based on active stream."""
+        features = (
+            MediaPlayerEntityFeature.VOLUME_SET
+            | MediaPlayerEntityFeature.VOLUME_MUTE
+            | MediaPlayerEntityFeature.SELECT_SOURCE
+        )
+
+        data = self.group_data
+        if not data:
+            return features
+
+        stream_id = data.get("streamId", "")
+        if stream_id.startswith("spotify_"):
+            return (
+                features
+                | MediaPlayerEntityFeature.PLAY
+                | MediaPlayerEntityFeature.PAUSE
+                | MediaPlayerEntityFeature.NEXT_TRACK
+                | MediaPlayerEntityFeature.PREVIOUS_TRACK
+                | MediaPlayerEntityFeature.STOP
+            )
+
+        if stream_id and stream_id != STREAM_ID_DEFAULT:
+            # Radio Stream: No next/prev track, only Stop/Pause
+            return features | MediaPlayerEntityFeature.STOP | MediaPlayerEntityFeature.PAUSE
+
+        return features
 
     @property
     def group_data(self) -> dict[str, Any] | None:
@@ -289,14 +310,25 @@ class AudioOrchestratorGroupPlayer(CoordinatorEntity[AudioOrchestratorCoordinato
         return None
 
     async def async_media_pause(self) -> None:
-        """Pause playback on active Spotify node."""
+        """Pause playback on active stream."""
         source_id = self._get_active_spotify_source_id()
-        if not source_id:
+        if source_id:
+            url = f"{self.coordinator.host}/api/spotifysources/{source_id}/pause"
+            async with self.coordinator.session.post(url):
+                pass
+            await self.coordinator.async_request_refresh()
             return
 
-        url = f"{self.coordinator.host}/api/spotifysources/{source_id}/pause"
-        async with self.coordinator.session.post(url):
-            pass
+        # Radio stream: Pause switches stream to default silence
+        await self.async_media_stop()
+
+    async def async_media_stop(self) -> None:
+        """Stop playback (switch back to default silence)."""
+        url = f"{self.coordinator.host}/api/groups/{self._group_id}/stream"
+        async with self.coordinator.session.put(url, json={"streamId": STREAM_ID_DEFAULT}) as resp:
+            if resp.status != 200:
+                _LOGGER.warning("Failed to stop stream: HTTP %s", resp.status)
+                return
 
         await self.coordinator.async_request_refresh()
 
