@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   release-please:
-    name: Release Please & HACS Asset Package
+    name: Release Please
     runs-on: ubuntu-latest
     steps:
       - name: Run Release Please
@@ -25,12 +25,12 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
 
-      - name: Create HACS Zip archive
+      - name: Create release zip archive
         if: ${{ steps.release.outputs.release_created }}
         run: |
-          cd custom_components/audio_orchestrator
-          zip -r ../../audio_orchestrator.zip . -x "*/__pycache__*"
-          cd ../..
+          cd custom_components
+          zip -r ../audio_orchestrator.zip audio_orchestrator -x "*/__pycache__*"
+          cd ..
 
       - name: Upload zip to release asset
         if: ${{ steps.release.outputs.release_created }}
