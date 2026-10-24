@@ -1,12 +1,14 @@
 {
   "domain": "audio_orchestrator",
   "name": "Audio Orchestrator",
-  "codeowners": ["@slaesh"],
+  "codeowners": [
+    "@slaesh"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/slaesh/audio-orchestrator-hass-integration",
   "integration_type": "hub",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/slaesh/audio-orchestrator-hass-integration/issues",
-  "version": "1.0.10"
+  "version": "1.0.11"
 }
