@@ -5,7 +5,7 @@
 [![CI](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Official Home Assistant Custom Integration for **[Audio Orchestrator](https://github.com/slaesh/audio-orchestrator)**.
+Official Home Assistant Integration for **[Audio Orchestrator](https://github.com/slaesh/audio-orchestrator)**.
 
 Exposes every Audio Orchestrator group as a native Home Assistant `media_player` entity.
 
@@ -21,26 +21,26 @@ Exposes every Audio Orchestrator group as a native Home Assistant `media_player`
 
 ### Via HACS / Home Assistant Marketplace (Recommended)
 
-Audio Orchestrator is officially included in the default [HACS catalog](https://github.com/hacs/default).
+Audio Orchestrator is officially available in the default [HACS catalog](https://github.com/hacs/default).
 
-#### 1-Click Installation
+#### 1-Click Install
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=slaesh&repository=audio-orchestrator-hass-integration&category=integration)
 
-1. Click the badge above to open the integration directly in HACS.
-2. Click **Download** and restart Home Assistant when prompted.
+Click the badge above to open and download Audio Orchestrator directly in your HACS instance.
 
 #### Search in HACS
 1. In Home Assistant, open **HACS** > **Integrations**.
-2. Search directly for **Audio Orchestrator**.
-3. Click **Download** and restart Home Assistant when prompted.
+2. Search for **Audio Orchestrator**.
+3. Click **Download**, then restart Home Assistant when prompted.
 
 ---
 
 ### Manual Installation (without HACS)
 
-1. Copy the `custom_components/audio_orchestrator` folder into your Home Assistant `/config/custom_components/` directory.
-2. Restart Home Assistant.
+1. Download the latest release archive (`audio_orchestrator.zip`) from the [Releases page](https://github.com/slaesh/audio-orchestrator-hass-integration/releases).
+2. Copy the `custom_components/audio_orchestrator` folder into your Home Assistant `/config/custom_components/` directory.
+3. Restart Home Assistant.
 
 ## Configuration
 
