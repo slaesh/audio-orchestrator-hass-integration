@@ -1,6 +1,6 @@
 # Audio Orchestrator Home Assistant Integration
 
-[![HACS Badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/default)
+[![HACS Badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/default)
 [![Validate](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/validate.yml/badge.svg)](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/validate.yml)
 [![CI](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/slaesh/audio-orchestrator-hass-integration/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -19,33 +19,21 @@ Exposes every Audio Orchestrator group as a native Home Assistant `media_player`
 
 ## Installation
 
-### Via HACS (Recommended)
+### Via HACS / Home Assistant Marketplace (Recommended)
 
-> [!NOTE]
-> Official inclusion in the default HACS repository catalog is currently pending review ([hacs/default #12517](https://github.com/hacs/default/pull/12517)).
-> Until merged, you can install it right away as a custom repository using either Option 1 or Option 2 below.
+Audio Orchestrator is officially included in the default [HACS catalog](https://github.com/hacs/default).
 
-#### Option 1: 1-Click Installation (Custom Repository)
+#### 1-Click Installation
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=slaesh&repository=audio-orchestrator-hass-integration&category=integration)
 
-1. Click the badge above to open the repository directly in HACS.
-2. Click **Download** and restart Home Assistant if prompted.
+1. Click the badge above to open the integration directly in HACS.
+2. Click **Download** and restart Home Assistant when prompted.
 
-#### Option 2: Manually Add as Custom Repository
-
+#### Search in HACS
 1. In Home Assistant, open **HACS** > **Integrations**.
-2. Click the three dots in the top right corner and choose **Custom repositories**.
-3. Enter `https://github.com/slaesh/audio-orchestrator-hass-integration` as the URL and select **Integration** as category.
-4. Click **Add**, find **Audio Orchestrator**, and click **Download**.
-5. Restart Home Assistant if prompted.
-
-#### Once officially listed in HACS (after PR merge)
-
-Once [PR #12517](https://github.com/hacs/default/pull/12517) is merged by the HACS team:
-1. Open **HACS** > **Integrations**.
 2. Search directly for **Audio Orchestrator**.
-3. Click **Download** and restart Home Assistant.
+3. Click **Download** and restart Home Assistant when prompted.
 
 ---
 
